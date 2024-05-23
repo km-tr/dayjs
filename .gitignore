@@ -13,12 +13,13 @@ yarn.lock
 coverage
 
 # build
-/locale
-/plugin
-/dayjs.min.js
-/esm
-/index.d.ts
-locale.json
+# ccmmented out for installation from github
+# /locale
+# /plugin
+# /dayjs.min.js
+# /esm
+# /index.d.ts
+# locale.json
 
 #dev
 demo.js
