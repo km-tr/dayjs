@@ -95,16 +95,80 @@ class Dayjs {
     this.init()
   }
 
+  // Based onhttps://github.com/facebook/hermes/issues/930#issuecomment-2027601318
   init() {
-    const { $d } = this
-    this.$y = $d.getFullYear()
-    this.$M = $d.getMonth()
-    this.$D = $d.getDate()
-    this.$W = $d.getDay()
-    this.$H = $d.getHours()
-    this.$m = $d.getMinutes()
-    this.$s = $d.getSeconds()
-    this.$ms = $d.getMilliseconds()
+    this.cached_y = undefined
+    this.cached_M = undefined
+    this.cached_D = undefined
+    this.cached_W = undefined
+    this.cached_H = undefined
+    this.cached_m = undefined
+    this.cached_s = undefined
+    this.cached_ms = undefined
+    this.cached_timezoneOffset = undefined
+  }
+
+  get $y() {
+    if (this.cached_y === undefined) {
+      this.cached_y = this.$d.getFullYear()
+    }
+    return this.cached_y
+  }
+
+  get $M() {
+    if (this.cached_M === undefined) {
+      this.cached_M = this.$d.getMonth()
+    }
+    return this.cached_M
+  }
+
+  get $D() {
+    if (this.cached_D === undefined) {
+      this.cached_D = this.$d.getDate()
+    }
+    return this.cached_D
+  }
+
+  get $W() {
+    if (this.cached_W === undefined) {
+      this.cached_W = this.$d.getDay()
+    }
+    return this.cached_W
+  }
+
+  get $H() {
+    if (this.cached_H === undefined) {
+      this.cached_H = this.$d.getHours()
+    }
+    return this.cached_H
+  }
+
+  get $m() {
+    if (this.cached_m === undefined) {
+      this.cached_m = this.$d.getMinutes()
+    }
+    return this.cached_m
+  }
+
+  get $s() {
+    if (this.cached_s === undefined) {
+      this.cached_s = this.$d.getSeconds()
+    }
+    return this.cached_s
+  }
+
+  get $ms() {
+    if (this.cached_ms === undefined) {
+      this.cached_ms = this.$d.getMilliseconds()
+    }
+    return this.cached_ms
+  }
+
+  get $timezoneOffset() {
+    if (this.cached_timezoneOffset === undefined) {
+      this.cached_timezoneOffset = this.$d.getTimezoneOffset()
+    }
+    return this.cached_timezoneOffset
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -117,15 +181,27 @@ class Dayjs {
   }
 
   isSame(that, units) {
+    if (units === undefined) {
+      return this.toISOString() === dayjs(that).toISOString()
+    }
+
     const other = dayjs(that)
     return this.startOf(units) <= other && other <= this.endOf(units)
   }
 
   isAfter(that, units) {
+    if (units === undefined) {
+      return this.toISOString() > dayjs(that).toISOString()
+    }
+
     return dayjs(that) < this.startOf(units)
   }
 
   isBefore(that, units) {
+    if (units === undefined) {
+      return this.toISOString() < dayjs(that).toISOString()
+    }
+
     return this.endOf(units) < dayjs(that)
   }
 
